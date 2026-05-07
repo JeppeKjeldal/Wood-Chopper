@@ -5,7 +5,7 @@ public class Collectible : MonoBehaviour
     public enum ResourceType { Wood, Stone }
     public ResourceType type;
 
-    public int amount = 1;
+    public int amount = 5;
     public float rotationSpeed = 1f;
 
     void Update()

@@ -968,6 +968,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -90
       objectReference: {fileID: 0}
+    - target: {fileID: 4691760954829848859, guid: 0384c6bb1e7585f488241821383b9919, type: 3}
+      propertyPath: amount
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 8122668442342930727, guid: 0384c6bb1e7585f488241821383b9919, type: 3}
       propertyPath: m_Name
       value: Log
