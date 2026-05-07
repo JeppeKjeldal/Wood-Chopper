@@ -9,7 +9,9 @@ public class ResourceManager : MonoBehaviour
     [Header("UI References")]
     [SerializeField] private TMP_Text woodText;
     [SerializeField] private TMP_Text stoneText;
+    [SerializeField] private TMP_Text goldText;
 
+    private int amountOfGold;
     private int amountOfWood;
     private int amountOfStone;
 
@@ -37,9 +39,31 @@ public class ResourceManager : MonoBehaviour
         UpdateUI();
     }
 
+    // Call this from the Shop
+    public void SellResources(int woodValue, int stoneValue)
+    {
+        // Calculate gold based on current wood and stone
+        int earnedGold = (amountOfWood * woodValue) + (amountOfStone * stoneValue);
+
+        amountOfGold += earnedGold;
+
+        // Reset resources after selling
+        amountOfWood = 0;
+        amountOfStone = 0;
+
+        UpdateUI();
+    }
+
+    public void OnClickSellAll()
+    {
+        // Wood sells for 2 gold, Stone for 5
+        ResourceManager.Instance.SellResources(2, 5);
+    }
+
     private void UpdateUI()
     {
         if (woodText != null) woodText.text = "Wood: " + amountOfWood;
         if (stoneText != null) stoneText.text = "Stone: " + amountOfStone;
+        if (goldText != null) goldText.text = "Gold: " + amountOfGold;
     }
 }
