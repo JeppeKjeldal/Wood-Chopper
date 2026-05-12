@@ -3,6 +3,10 @@ using UnityEngine;
 
 public class ToolManager : MonoBehaviour
 {
+    [Header("Upgrades")]
+    public int upgradeCost = 50;
+    public float costMultiplier = 1.5f;
+
     public GameObject axeModel;
     public GameObject pickaxeModel;
 
@@ -50,5 +54,25 @@ public class ToolManager : MonoBehaviour
             swingScript.equippedTool = pickaxeModel.GetComponent<Tool>();
 
         Debug.Log("Switched to tool in slot: " + slot);
+    }
+
+    public void UpgradeTools()
+    {
+        if (ResourceManager.Instance.TrySpendGold(upgradeCost))
+        {
+            // 1. Increase Damage on all tools (or the current one)
+            // You can loop through your tools and add damage
+            axeModel.GetComponentInChildren<Tool>().damage += 1;
+            pickaxeModel.GetComponentInChildren<Tool>().damage += 1;
+
+            // 2. Increase the cost for the next upgrade
+            upgradeCost = Mathf.RoundToInt(upgradeCost * costMultiplier);
+
+            Debug.Log("Tools Upgraded! New Cost: " + upgradeCost);
+        }
+        else
+        {
+            Debug.Log("Not enough gold!");
+        }
     }
 }

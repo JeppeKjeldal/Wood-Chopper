@@ -66,4 +66,15 @@ public class ResourceManager : MonoBehaviour
         if (stoneText != null) stoneText.text = "Stone: " + amountOfStone;
         if (goldText != null) goldText.text = "Gold: " + amountOfGold;
     }
+
+    public bool TrySpendGold(int amount)
+    {
+        if (amountOfGold >= amount)
+        {
+            amountOfGold -= amount;
+            UpdateUI();
+            return true; // Purchase successful
+        }
+        return false; // Too poor!
+    }
 }
