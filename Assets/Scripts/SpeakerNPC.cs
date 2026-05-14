@@ -1,12 +1,21 @@
+using StarterAssets;
 using UnityEngine;
 
 public class SpeakerNPC : MonoBehaviour
 {
     public string npcName = "Peasant";
-    [SerializeField] private GameObject choicePanel; // Drag your ChoicePanel here
+    [SerializeField] private GameObject choicePanel;
 
     public enum QuestState { NotStarted, InProgress, Completed }
     public QuestState currentState = QuestState.NotStarted;
+
+    private StarterAssetsInputs input;
+
+    private void Awake()
+    {
+        // Finds the player's input script in the scene
+        input = FindAnyObjectByType<StarterAssetsInputs>();
+    }
 
     public void TriggerDialogue()
     {
@@ -18,6 +27,7 @@ public class SpeakerNPC : MonoBehaviour
             return;
         }
 
+        // Close the box if it's open (but only if we aren't waiting for a choice)
         if (db.IsOpen && !choicePanel.activeInHierarchy)
         {
             db.Close();
@@ -39,13 +49,13 @@ public class SpeakerNPC : MonoBehaviour
             case QuestState.NotStarted:
                 db.DisplayDialogue("Hello! I need 500 gold. Can you help?", npcName);
                 choicePanel.SetActive(true);
-                ToggleCursor(true);
+                input.SetCursorState(false); // Unlock mouse & freeze camera
                 break;
 
             case QuestState.InProgress:
                 db.DisplayDialogue("Do you have the gold?", npcName);
                 choicePanel.SetActive(true);
-                ToggleCursor(true);
+                input.SetCursorState(false); // Unlock mouse & freeze camera
                 break;
 
             case QuestState.Completed:
@@ -57,6 +67,7 @@ public class SpeakerNPC : MonoBehaviour
     public void OnClickYes()
     {
         choicePanel.SetActive(false);
+        input.SetCursorState(true); // Lock mouse & enable camera
 
         if (currentState == QuestState.NotStarted)
         {
@@ -75,23 +86,16 @@ public class SpeakerNPC : MonoBehaviour
                 DialogueBox.Instance.DisplayDialogue("You're lying! You don't have 500 gold.", npcName);
             }
         }
-        ToggleCursor(false);
     }
 
     public void OnClickNo()
     {
         choicePanel.SetActive(false);
+        input.SetCursorState(true); // Lock mouse & enable camera
 
         if (currentState == QuestState.NotStarted)
             DialogueBox.Instance.DisplayDialogue("Too bad. Come back if you change your mind.", npcName);
         else
             DialogueBox.Instance.DisplayDialogue("Then go collect some more!", npcName);
-        ToggleCursor(false);
-    }
-
-    private void ToggleCursor(bool isEnabled)
-    {
-        Cursor.visible = isEnabled;
-        Cursor.lockState = isEnabled ? CursorLockMode.None : CursorLockMode.Locked;
     }
 }
