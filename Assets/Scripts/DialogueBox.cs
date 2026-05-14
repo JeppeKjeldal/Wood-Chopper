@@ -7,6 +7,7 @@ public class DialogueBox : MonoBehaviour
     [SerializeField] private GameObject content;
 
     [SerializeField] private TextMeshProUGUI dialogueText;
+    [SerializeField] private TextMeshProUGUI speakerNameText;
 
     [SerializeField] private float textSpeed = 10.0f;
 
@@ -22,8 +23,6 @@ public class DialogueBox : MonoBehaviour
     {
         Instance = this;
         Close();
-
-        DisplayDialogue("Hello this is just a test string do not mind me :)");
     }
 
     public void Open()
@@ -43,9 +42,10 @@ public class DialogueBox : MonoBehaviour
         IsTyping = false;
     }
 
-    public void DisplayDialogue(string fullText)
+    public void DisplayDialogue(string fullText, string speakerName)
     {
         Open();
+        this.speakerNameText.text = speakerName;
         this.fullText = fullText;
         IsTyping = true;
         StartCoroutine(TypeWriterEffectCoroutine());

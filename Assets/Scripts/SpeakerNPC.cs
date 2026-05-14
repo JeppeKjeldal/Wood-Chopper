@@ -12,7 +12,7 @@ public class SpeakerNPC : MonoBehaviour
         if (!dialogueBox.IsOpen)
         {
             dialogueBox.Open();
-            dialogueBox.DisplayDialogue(text);
+            dialogueBox.DisplayDialogue(text, gameObject.name);
         }
 
         else if (dialogueBox.IsTyping)
