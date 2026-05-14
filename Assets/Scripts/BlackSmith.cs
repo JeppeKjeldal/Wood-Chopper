@@ -1,17 +1,23 @@
+using StarterAssets;
 using UnityEngine;
 
 public class BlackSmith : MonoBehaviour
 {
-    public GameObject upgradeMenuPanel; // Drag your UI Shop Panel here
+    public GameObject upgradeMenuPanel;
+    private StarterAssetsInputs input;
+
+    private void Awake()
+    {
+        input = FindAnyObjectByType<StarterAssetsInputs>();
+    }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
             upgradeMenuPanel.SetActive(true);
-            // Optional: Unlock the mouse cursor so you can click "Sell"
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
+            // False = Show mouse, freeze camera
+            if (input != null) input.SetCursorState(false);
         }
     }
 
@@ -20,9 +26,8 @@ public class BlackSmith : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             upgradeMenuPanel.SetActive(false);
-            // Re-lock the cursor for gameplay
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
+            // True = Hide mouse, enable camera
+            if (input != null) input.SetCursorState(true);
         }
     }
 }
