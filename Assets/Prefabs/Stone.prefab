@@ -130,4 +130,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ResourceNode
   nodeType: 1
   health: 3
-  lootPrefab: {fileID: 0}
+  lootPrefab: {fileID: 644274128216448698, guid: cfa11ceb94ca5264dae0a224b858b6d9, type: 3}
