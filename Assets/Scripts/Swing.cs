@@ -12,13 +12,11 @@ public class Swing : MonoBehaviour
     private void Awake()
     {
         animator = GetComponent<Animator>();
-        // Look in parent for the inputs (assuming StarterAssets is on the Player root)
         starterAssetsInputs = GetComponentInParent<StarterAssetsInputs>();
     }
 
     private void Update()
     {
-        // Basic check to ensure we have input and a tool to swing
         if (starterAssetsInputs != null && starterAssetsInputs.swing)
         {
             animator.SetTrigger("swing");
@@ -28,30 +26,46 @@ public class Swing : MonoBehaviour
 
     public void CheckHit() // Called by the Animation Event on the WeaponHolder
     {
-        // If we aren't holding anything, don't do anything
         if (equippedTool == null) return;
 
         RaycastHit hit;
         float interactDistance = 2.5f;
 
-        // Perform the Raycast from the Camera's position/forward
-        // NOTE: Use Camera.main if the WeaponHolder is offset and doesn't face forward perfectly
         if (Physics.Raycast(transform.position, transform.forward, out hit, interactDistance))
         {
             ResourceNode node = hit.transform.GetComponent<ResourceNode>();
 
             if (node != null)
             {
-                // Check if the tool matches the resource node type
-                if (node.nodeType == equippedTool.toolType)
+                // Note: Ensure your equippedTool.toolType matches the ResourceNode.ResourceType enum structure
+                if ((int)node.nodeType == (int)equippedTool.toolType)
                 {
                     node.TakeDamage(equippedTool.damage);
+
+                    // FIXED: Call the sound function with the node
+                    PlayHitSound(node);
                 }
                 else
                 {
                     Debug.Log("Wrong tool! This is " + node.nodeType + " but you have a " + equippedTool.toolType + " tool.");
                 }
             }
+        }
+    }
+
+    // FIXED: Uses the exact ResourceNode class and its internal ResourceType enum
+    private void PlayHitSound(ResourceNode node)
+    {
+        if (SoundManager.Instance == null) return;
+
+        // Directly checks the enum from your ResourceNode script
+        if (node.nodeType == ResourceNode.ResourceType.Wood)
+        {
+            SoundManager.Instance.PlayWoodSound();
+        }
+        else if (node.nodeType == ResourceNode.ResourceType.Stone)
+        {
+            SoundManager.Instance.PlayStoneSound();
         }
     }
 }
