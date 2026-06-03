@@ -1,7 +1,7 @@
 using UnityEngine;
 using TMPro;
 
-public class ResourceManager : MonoBehaviour
+public class ResourceManager : MonoBehaviour, IDataPersistence
 {
     // The "Static Instance" that makes this a Singleton
     public static ResourceManager Instance { get; private set; }
@@ -76,5 +76,21 @@ public class ResourceManager : MonoBehaviour
             return true; // Purchase successful
         }
         return false; // Too poor!
+    }
+
+    public void LoadData(GameData data)
+    {
+        this.amountOfGold = data.gold;
+        this.amountOfWood = data.wood;
+        this.amountOfStone = data.stone;
+        UpdateUI();
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        data.gold = this.amountOfGold;
+        data.wood = this.amountOfWood;
+        data.stone = this.amountOfStone;
+        UpdateUI();
     }
 }
