@@ -81,12 +81,16 @@ public class ResourceManager : MonoBehaviour, IDataPersistence
     public void LoadData(GameData data)
     {
         this.amountOfGold = data.gold;
+        this.amountOfWood = data.wood;
+        this.amountOfStone = data.stone;
         UpdateUI();
     }
 
     public void SaveData(ref GameData data)
     {
         data.gold = this.amountOfGold;
+        data.wood = this.amountOfWood;
+        data.stone = this.amountOfStone;
         UpdateUI();
     }
 }
