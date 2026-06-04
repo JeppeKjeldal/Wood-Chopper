@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class ShopTrigger : MonoBehaviour
 {
-    public GameObject shopMenuPanel;
+    [SerializeField] private GameObject shopMenuPanel;
+
     private StarterAssetsInputs input;
 
     private void Awake()

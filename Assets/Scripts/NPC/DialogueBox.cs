@@ -5,10 +5,8 @@ using UnityEngine;
 public class DialogueBox : MonoBehaviour
 {
     [SerializeField] private GameObject content;
-
     [SerializeField] private TextMeshProUGUI dialogueText;
     [SerializeField] private TextMeshProUGUI speakerNameText;
-
     [SerializeField] private float textSpeed = 10.0f;
 
     private string fullText;

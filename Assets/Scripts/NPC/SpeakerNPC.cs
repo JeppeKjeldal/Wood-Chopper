@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class SpeakerNPC : MonoBehaviour
 {
-    public string npcName = "Peasant";
+    [SerializeField] private string npcName = "Peasant";
     [SerializeField] private GameObject choicePanel;
 
     public enum QuestState { NotStarted, InProgress, Completed }
@@ -13,28 +13,26 @@ public class SpeakerNPC : MonoBehaviour
 
     private void Awake()
     {
-        // Finds the player's input script in the scene
         input = FindAnyObjectByType<StarterAssetsInputs>();
     }
 
     public void TriggerDialogue()
     {
-        var db = DialogueBox.Instance;
+        var dialogueBox = DialogueBox.Instance;
 
-        if (db.IsTyping)
+        if (dialogueBox.IsTyping)
         {
-            db.FastForward();
+            dialogueBox.FastForward();
             return;
         }
 
-        // Close the box if it's open (but only if we aren't waiting for a choice)
-        if (db.IsOpen && !choicePanel.activeInHierarchy)
+        if (dialogueBox.IsOpen && !choicePanel.activeInHierarchy)
         {
-            db.Close();
+            dialogueBox.Close();
             return;
         }
 
-        if (!db.IsOpen)
+        if (!dialogueBox.IsOpen)
         {
             RunQuestLogic();
         }

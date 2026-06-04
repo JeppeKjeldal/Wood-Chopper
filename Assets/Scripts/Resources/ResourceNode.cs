@@ -2,13 +2,14 @@ using UnityEngine;
 
 public class ResourceNode : MonoBehaviour
 {
+    [SerializeField] private GameObject lootPrefab; // The Log or Stone item that drops
+
     // This creates a dropdown menu in the Inspector
     public enum ResourceType { Wood, Stone }
 
-    [Header("Settings")]
     public ResourceType nodeType;
-    public int health = 3;
-    public GameObject lootPrefab; // The Log or Stone item that drops
+
+    private int health = 3;
 
     public void TakeDamage(int amount)
     {

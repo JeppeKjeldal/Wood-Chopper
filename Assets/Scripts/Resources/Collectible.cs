@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class Collectible : MonoBehaviour
 {
+    [SerializeField] private int amount = 5;
+
     public enum ResourceType { Wood, Stone }
     public ResourceType type;
-
-    public int amount = 5;
 
     private void OnTriggerEnter(Collider other)
     {
